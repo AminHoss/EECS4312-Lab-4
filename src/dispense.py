@@ -19,6 +19,19 @@ class DispenseEvent:
         """
         self.patient_id = patient_id
         self.medication = medication
+        
+        if not isinstance(dose_mg, (int,float)):
+            raise ValueError("Dosage in milligrams must be a numerical value")
+        elif dose_mg <=0:
+            raise ValueError("Dosage must be a positive number")
+        self.dose_mg = dose_mg
+        
+        if not isinstance(quantity, int):
+            raise ValueError("Quantity must be an integer")
+        elif dose_mg <=0:
+            raise ValueError("Quantity must be a positive integer")
+        self.quantity = quantity
+            
 
     # TODO Task 4: Define and check system invariants 
     def invariant_holds(existing_events, new_event):
