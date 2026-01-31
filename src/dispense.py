@@ -1,4 +1,6 @@
 
+from datetime import date
+
 class DispenseEvent:
     """
     Represents a single medication dispensing event for a patient.
@@ -22,6 +24,10 @@ class DispenseEvent:
         """
         self.patient_id = patient_id
         self.medication = medication
+        #My reasoning for date being obtained on the dispense event instead of as an argument is that
+        #In the real world, an actual dispensing machine would simply use its current date as the date
+        #of the event as opposed to an argument from anywhere else
+        self.date = date.today()
         
         if not isinstance(dose_mg, (int,float)):
             raise ValueError("Dosage in milligrams must be a numerical value")
@@ -37,6 +43,8 @@ class DispenseEvent:
 
         if dose_mg * quantity > MEDICATION_MAX_DOSAGE[self.medication]:
             raise ValueError(f"Medication exceeds maximum dosage value of {MEDICATION_MAX_DOSAGE[self.medication]}")
+
+        
             
 
     # TODO Task 4: Define and check system invariants 
@@ -52,4 +60,12 @@ class DispenseEvent:
             bool: True if all invariants hold after adding new_event; False otherwise.
             
         """
-        pass
+        if not isinstance(new_event, DispenseEvent):
+            return False
+
+        for event in existing_events:
+            if event.patient_id == new_event.patient_id & event.medication_id == new_event.medication_id & event.date == new_event.date:
+                return False
+
+        return True
+            
